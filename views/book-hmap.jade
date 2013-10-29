@@ -1,0 +1,31 @@
+extends layout
+
+block head
+    link(rel='stylesheet', href='/stylesheets/envision.css')
+    script(type='text/javascript', src='/js/envision.js')    
+    script(type='text/javascript', src='/js/book-hmap.js')    
+
+  
+block content
+    h1 Book HeatMap Prototype #{version}
+    span#cont-stats-bookhm
+      div.cont-side-controls
+        p Select book:
+        select(name="book_id")
+          option 1
+          option 2
+          option 3
+        p Select user:
+        select(name="user_id")
+          option
+          option 1
+          option 2
+        br
+        input(type="button", value="Heat Map").hook-stat-sel 
+        div.cont-error.hidden
+            p(style="color: red")
+              | Failed to build statistics: 
+              | <span class="hook-stat-fail-reason"/> 
+
+      div.cont-graph-and-buttons
+        div.cont-graph      

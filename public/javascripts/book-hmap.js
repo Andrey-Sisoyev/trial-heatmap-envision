@@ -6,6 +6,8 @@ $(document).ready(function() {
     var $contFailure   = $whereAsked .find(".cont-error");
     var $msgFailReason = $contFailure.find('.hook-stat-fail-reason');
 
+    var prom_inpBookUser = undefined; // specified in PromUI_inpBookUser()
+
     // main cycle
     function interaction() { 
         prom_inpBookUser
@@ -16,9 +18,7 @@ $(document).ready(function() {
     }
 
     PromUI_inpBookUser();
-    interaction();
-
-    var prom_inpBookUser = undefined; // specified in PromUI_inpBookUser()
+    interaction();    
 
     function PromUI_inpBookUser() {
         var $inpBook = $whereAsked.find('select[name="book_id"]');
@@ -104,8 +104,8 @@ $(document).ready(function() {
          \/ \/ \/
 
          {"heat":
-            [ [0.99, 1, 9.99, 10, 14.99, 15, 24.99, 25, 29.99, 30, 200]
-            , [0,    1, 1,     2,  2,     0,  0,     2,  2,     0,   0]
+            [ [1, 9.99, 10, 14.99, 15, 24.99, 25, 29.99, 30, 200]
+            , [1, 1,     2,  2,     0,  0,     2,  2,     0,   0]
             ]
          }
 

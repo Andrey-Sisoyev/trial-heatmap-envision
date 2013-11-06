@@ -205,7 +205,13 @@ $(document).ready(function() {
                 }
             };
 
-            new envision.templates.TplBook(options);    
+            flags = [
+                {x: 12, content: '1. Heading'}
+              , {x: 14, content: '2. HeadingHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeading HeadingHeadingHeadingHeadingHeading'}
+              , {x: 15, content: '3. Heading'}
+            ];
+
+            new envision.templates.TplBook(options, flags);    
         }   
     }
 

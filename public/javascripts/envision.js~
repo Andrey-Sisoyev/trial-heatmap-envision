@@ -2425,164 +2425,55 @@ Graph.prototype = {
     y2.setScale();
   },
 
-  getDataY_forDataX: function(dataX, serieIdx) {
-    var serieIdx = serieIdx || 0
-      , allData = this.series[serieIdx].data
-      , i
-      , len = allData.length
-      , iFrom = 0
-      , iTo = len-1
-      , xFrom, xTo
-      , yFrom, yTo
-      , dataY // return
-      ;
-    for(i = 1; i < len; i++) {
-        xFrom = allData[i][0];
-        if(xFrom > dataX)
-            break;
-        else 
-            iFrom = i;
-        
-    }
-    xFrom = allData[iFrom][0];
-    yFrom = allData[iFrom][1];
-
-    iTo = Math.min(iFrom + 1, len);
-    
-    xTo = allData[iTo][0];
-    yTo = allData[iTo][1];
-
-    dataY = yFrom + ((yTo-yFrom)*(xTo-dataX)/(xTo-xFrom));
-
-    return dataY;
+  /**
+     * Add flags to the graph.
+     *
+     * @param Array  An array of flags.
+     */
+  setFlags: function (flags) {
+    this.flagData = flags;
+    // this.drawFlags();
   },
 
   drawFlags: function () {
 
-    var options  = this.options
-      , xScale   = this.axes.x
-      , yScale   = this.axes.y
-      , flags    = options.flagsData
-      , xAxis    = this.axes.x
-      , yAxis    = this.axes.y
-      , min      = xAxis.min
-      , max      = xAxis.max
-      , lastXPos = undefined
+    var xAxis = this.graphs.price.axes.x,
+        yAxis = this.graphs.price.axes.y,
+        min   = xAxis.datamin,
+        max   = xAxis.datamax;
+
+    var options = this.options
+      , xScale  = options.xScale
+      , yScale  = options.yScale
+      , flags   = this.flagData; 
       ;
 
-    if(!flags)
-        return;
+    for (var i = 0; i < flags.length; i++) {
 
-    for (var i = flags.length - 1; i >= 0 ; i--) {
+        var x = flags[i][0];
 
-        var flagX = flags[i].x;
-
-        if (flagX < min) 
-            break;
-        else if (flagX >= max) 
+        if (x < min) {
             continue;
-        else {
-            
+        } else if (x >= min && x <= max) {
+
             // Draw the flag
-            var flagY        = this.getDataY_forDataX(flagX, 0)
-              , flagContent  = flags[i].content
-              , xPos         = xScale.d2p(flagX)
-              , yPos         = yScale.d2p(flagY)
-              , allowedWidth = lastXPos === undefined ? this.canvasWidth - xPos - 5 : lastXPos - xPos - 5
-              , actualWidth  = undefined 
-              , lastXPos     = xPos
-              , hidingFlag   = true
-              , offset       = 0 // this.containers.price.cumulativeOffset()
-              , left         = Math.floor(xPos + this.plotOffset.left)
-              , top          = 5 // Math.floor(yPos - 40 + this.plotOffset.top) // TODO: need to handle overlapping flags
-              , bottom       = yScale.d2p(yAxis.min)
-              , height       = Math.floor(bottom - top)
-              , D            = Flotr.DOM
-              ;            
+            var point       = this.priceData[x],
+                flagContent = this.flagData[i][1],
+                xPos        = xAxis.d2p(point[0]),
+                yPos        = yAxis.d2p(point[1]),
+                offset      = this.containers.price.cumulativeOffset(),
+                left        = Math.floor(xPos + this.graphs.price.plotOffset.left),
+                top         = Math.floor(yPos - 40 + this.graphs.price.plotOffset.top);
 
-            var flagWrapD = D.node('<div class="flotr-wrapper-flag hidden hover" style="top: '+top+'px; left: '+left+'px;"></div>')
-              , flagD     = D.node('<div class="flotr-flag"></div>');
-            flagD.innerHTML = flagContent;
-            flagWrapD.appendChild(flagD);
-            D.insert(this.el, flagWrapD);
-            
-            var $flagWrapD = $(flagWrapD);
-            actualWidth = $flagWrapD.width();
+            flag = new Element('div', {'class': 'flag', 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10;'});
+            flag.update(flagContent);
+            flagpole = new Element('div', {'class': 'flagpole', 'style': 'position: absolute; top: '+top+'px; left: '+left+'px; z-index: 10; height: 40px;'});
+            this.containers.flags.insert(flag);
+            this.containers.flags.insert(flagpole);
 
-            var cfg_minAllowedWidth = 16
-              , cfg_minimizedWidth = 4
-              ;
-            if(allowedWidth >= cfg_minAllowedWidth) {
-                if(actualWidth > allowedWidth)
-                    $flagWrapD.width(allowedWidth);
-                hidingFlag = false;
-            } else {
-                $flagWrapD.addClass('minimized');
-                $flagWrapD.width(cfg_minimizedWidth);
-            }            
-            $flagWrapD.removeClass('hidden');
-            $flagWrapD.removeClass('hover');
-
-            var flagPoleD = D.node('<div class="flotr-flagpole" style="position: absolute; top: '+top+'px; left: '+left+'px; height: ' + height + 'px;"></div>');
-            D.insert(this.el, flagPoleD);
-
-            var fFlagLeaver = undefined;
-
-            (function(flagD, flagWrapD, flagPoleD, hidingFlag, actualWidth, allowedWidth) {
-                var $flagWrapD = $(flagWrapD)
-                  , $flagElems = $([flagWrapD, flagPoleD])
-                  , isHover        = false
-                  , isHoverToLeave = false
-                  ;
-
-                function flagMouseEnter() {
-                    console.log("in", isHover, isHoverToLeave, typeof fFlagLeaver === 'function');
-                    if(isHover)
-                        isHoverToLeave = true;
-                    else {
-                        isHover = true;
-                        if(fFlagLeaver)
-                            fFlagLeaver(); // force leave any previous flag
-                        fFlagLeaver = flagMouseLeave_force;
-                    }
-
-                    $flagElems.addClass('hover');
-                    
-                    if(hidingFlag) 
-                        $flagWrapD.removeClass('minimized');
-                    
-                    if(actualWidth > allowedWidth) 
-                        $flagWrapD.width(actualWidth);
-                }
-                function flagMouseLeave(_,force) {
-                    console.log("out", isHover, isHoverToLeave, typeof fFlagLeaver === 'function');
-
-                    if(!isHoverToLeave && !force)
-                        return;
-                
-                    isHoverToLeave = false;
-                    isHover = false;
-                    fFlagLeaver = undefined;
-
-                    $flagElems.removeClass('hover');
-                    if(hidingFlag) {
-                        $flagWrapD.addClass('minimized');
-                        $flagWrapD.width(cfg_minimizedWidth);
-                    } else if(actualWidth > allowedWidth) 
-                        $flagWrapD.width(allowedWidth);
-                }
-                function flagMouseLeave_force(_) {
-                    return flagMouseLeave(_, true);
-                }
-
-                $flagWrapD.on("mouseenter", flagMouseEnter);
-                $flagWrapD.on("mouseleave", flagMouseLeave);
-                $flagElems.on("click", flagMouseLeave_force);
-
-            })(flagD, flagWrapD, flagPoleD, hidingFlag, actualWidth, allowedWidth);
-
-
-        } 
+        } else if (x >= xmax) {
+            break;
+        }
     }
   },
 
@@ -2686,7 +2577,6 @@ Graph.prototype = {
     E.fire(this.el, 'flotr:beforedraw', [this.series, this]);
     
     this.drawGrid();
-    this.drawFlags();
     
     if (this.series.length) {
 
@@ -5020,21 +4910,21 @@ Flotr.addPlugin('hit', {
 
   closest : function (mouse) {
 
-    var series    = this.series 
-      , options   = this.options 
-      , relX      = mouse.relX 
-      , relY      = mouse.relY 
-      , compare   = Number.MAX_VALUE 
-      , compareX  = Number.MAX_VALUE 
-      , closest   = {} 
-      , closestX  = {} 
-      , check     = false 
-      , freeHit   = false 
-      , serie, data 
-      , distance, distanceX, distanceY 
-      , mouseX, mouseY 
-      , x, y, i, j
-      ;
+    var
+      series    = this.series,
+      options   = this.options,
+      relX      = mouse.relX,
+      relY      = mouse.relY,
+      compare   = Number.MAX_VALUE,
+      compareX  = Number.MAX_VALUE,
+      closest   = {},
+      closestX  = {},
+      check     = false,
+      freeHit   = false,
+      serie, data,
+      distance, distanceX, distanceY,
+      mouseX, mouseY,
+      x, y, i, j;
 
     function setClosest (o) {
       o.distance = distance;
@@ -5051,11 +4941,9 @@ Flotr.addPlugin('hit', {
     for (i = 0; i < series.length; i++) {
 
       serie = series[i];
+      data = serie.data;
       mouseX = serie.xaxis.p2d(relX);
       mouseY = serie.yaxis.p2d(relY);
-      // dataY = this.getDataY_forDataX();
-
-      data = serie.data;
 
       for (j = data.length; j--;) {
 
@@ -7842,27 +7730,24 @@ function getDefaults () {
   };
 }
 
-function TplBook (options, flags) {
+function TplBook (options) {
 
   var
     data = options.data,
-    configs = getDefaults(),
+    defaults = getDefaults(),
     vis = new V.Visualization({name : 'envision-book'}),
     selection = new V.Interaction(),
     hit = new V.Interaction(),
     heat, connection, summary;
 
   if (options.defaults) {
-    configs = Flotr.merge(options.defaults, configs);
+    defaults = Flotr.merge(options.defaults, defaults);
   }
 
-  configs.heat.data = data.heat;
-  configs.summary.data = data.summary;
+  defaults.heat.data = data.heat;
+  defaults.summary.data = data.summary;
 
-  configs.heat.config.flagsData = flags;
-  configs.summary.config.flagsData = flags;
-
-  configs.heat.config.mouse.trackFormatter = options.trackFormatter || function (o) {
+  defaults.heat.config.mouse.trackFormatter = options.trackFormatter || function (o) {
 
     var
       index = o.index,
@@ -7878,16 +7763,16 @@ function TplBook (options, flags) {
   };
 
   if (options.xTickFormatter) {
-    configs.summary.config.xaxis.tickFormatter = options.xTickFormatter;
+    defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
   }
 
-  configs.heat.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
+  defaults.heat.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
     return n + '°';
   };
 
-  heat       = new V.Component(configs.heat);
-  connection = new V.Component(configs.connection);
-  summary    = new V.Component(configs.summary);
+  heat = new V.Component(defaults.heat);
+  connection = new V.Component(defaults.connection);
+  summary = new V.Component(defaults.summary);
 
   // Render visualization
   vis

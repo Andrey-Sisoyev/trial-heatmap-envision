@@ -75,11 +75,24 @@ $(document).ready(function() {
               }
              ]
          , maxPos: integer
+         , headings: 
+             [{ number: text
+              , heading: text
+              , start_pos: integer
+              }
+             ]
          }
 
        \/ \/ \/
 
-         { heat: [[pos],[heat]] }
+         { heat: [[pos],[heat]]
+         , maxPos: integer    
+         , headings: 
+             [{ heading: text
+              , start_pos: integer
+              }
+             ] 
+         }
 
        --------------------
        f.e.
@@ -99,6 +112,13 @@ $(document).ready(function() {
                }
              ]
          , maxPos: 200
+         , headings: 
+             [ { number: '1.1.'
+               , depth: 1 // depth in headers hierarchy
+               , heading: 'Ceteris paribus'
+               , start_pos: 111                   
+               }
+             ]
          }
 
          \/ \/ \/
@@ -107,7 +127,13 @@ $(document).ready(function() {
             [ [1, 9.99, 10, 14.99, 15, 24.99, 25, 29.99, 30, 200]
             , [1, 1,     2,  2,     0,  0,     2,  2,     0,   0]
             ]
-         }
+         , maxPos: 200
+         , headings: 
+             [ { content: '1.1.\u00A0Ceteris paribus' // concatenated: number + utf(&nbsp;) + heading
+               , x: 111   
+               , depth: 1 
+               }
+             ]
 
 
      */
@@ -117,6 +143,7 @@ $(document).ready(function() {
 
     function prepareForChart(beBookData) {
         var stats = beBookData.stats;
+        var headings = beBookData.headings;
         var hasData = stats.length > 0;
 
         if(!hasData)
@@ -124,7 +151,12 @@ $(document).ready(function() {
         else {
             var xs = [];
             var ys = [];
-            var ret = {heat: [xs,ys]};
+            var flags = [];
+            var ret = 
+                { heat: [xs,ys]
+                , maxPos: beBookData.maxPos
+                , headings: flags
+                };
             var stat;
             var lastX = 1;
 
@@ -159,6 +191,22 @@ $(document).ready(function() {
                 ys.push(0);
             }
 
+            var heading;
+            for(var i = 0; i < headings.length; i++) {
+                heading = headings[i];
+                
+                var parsedHeading = '';
+                if(typeof heading.number === 'string' && heading.number.length > 0)
+                    parsedHeading += heading.number + '\u00A0';
+                parsedHeading += heading.heading;
+
+                flags.push({
+                    content: parsedHeading
+                  , x: heading.start_pos
+                  , depth: heading.depth
+                });
+            }
+
             zoomWordsCount = Math.min(beBookData.maxPos, Math.max(50, beBookData.maxPos * 0.2)); 
 
             return ret;
@@ -167,7 +215,8 @@ $(document).ready(function() {
 
     function envChart_drawBookHM(beBookData) {
         var preparedBookData = prepareForChart(beBookData);
-        
+        var flags = preparedBookData.headings;
+
         if(preparedBookData === undefined) {
             showAjaxErrMsg(undefined, "No data for this book ∩ user");
         } else {
@@ -178,13 +227,33 @@ $(document).ready(function() {
             var options = {
                 container : container
               , data : {
-                    heat    : preparedBookData.heat
+                    zoom    : preparedBookData.heat
                   , summary : preparedBookData.heat
                 } 
               , trackFormatter : function (o) {
-                    var value = 'Heat: ' + parseFloat(o.y) + '° Word: ' + parseInt(o.x);
+                    var hint = ''; 
+                    var idxHeading = undefined;
+                    var posInChapter = o.x;
+                    
+                    for(var i = 0; i < flags.length; i++) {
+                        var flag = flags[i];
+                        if(flag.x > o.x)
+                            break;
+                        else idxHeading = i;
+                    }
+                    var chapterFound = idxHeading !== undefined;
+                    
+                    if(chapterFound !== undefined) {
+                        hint += 'Chapter: ' + flags[idxHeading].content + '<br/>';
+                        posInChapter = parseInt(o.x - flags[idxHeading].x);
+                    }
 
-                    return value;
+                    hint += 'Reading heat: ' + parseFloat(o.y) + '°<br/>';
+                    if(chapterFound)
+                        hint += 'Word# in chapter: ' + posInChapter + "<br/>";
+                    hint += 'Word#: ' + parseInt(o.x);
+
+                    return hint;
                 } 
               , xTickFormatter : function (index) {
                     return index + '';
@@ -203,13 +272,7 @@ $(document).ready(function() {
                         }
                     }
                 }
-            };
-
-            flags = [
-                {x: 12, content: '1. Heading'}
-              , {x: 14, content: '2. HeadingHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeading HeadingHeadingHeadingHeadingHeading'}
-              , {x: 15, content: '3. Heading'}
-            ];
+            };            
 
             new envision.templates.TplBook(options, flags);    
         }   

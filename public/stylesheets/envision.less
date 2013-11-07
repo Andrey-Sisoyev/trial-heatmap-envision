@@ -1,42 +1,53 @@
 @plot-color: #B6D9FF;
 
-/* Flotr */
-.flotr-handles-handle {
-  background: #eee;
-  border: 1px solid #333;
-  position: absolute;
-  cursor: pointer;
-  border-radius: 3px;
-}
-.flotr-handles-handle,
-.flotr-grid-label {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-.flotr-handles-drag {
-  height: 12px;
-  width: 6px;
-}
-.flotr-handles-scroll {
-  height: 6px;
-  cursor: move;
-}
-.flotr-handles-left {
-  cursor: w-resize;
-}
-.flotr-handles-right {
-  cursor: e-resize;
-}
+/* Zoom Handles */
+.flotr-handles {
+    
+    .flotr-handles-handle {
+      z-index: 11;
+      background: #eee;
+      border: 1px solid #333;
+      position: absolute;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .flotr-handles-handle,
+    .flotr-grid-label {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+    }
+    .flotr-handles-drag {
+      height: 12px;
+      width: 6px;
+    }
+    .flotr-handles-scroll {
+      height: 6px;
+      cursor: move;
+    }
+    .flotr-handles-left {
+      cursor: w-resize;
+    }
+    .flotr-handles-right {
+      cursor: e-resize;
+    }
+}    
 
 
 /* Dimensions */
+
+.cont-graph {
+    padding-bottom: 50px;
+    background: #fff;
+    margin-bottom: 50px;
+}
+
 .envision-book {
   width: 600px;
 }
-.envision-book-heat .envision-component {
+.envision-book-zoom .envision-component {
   height : 200px;
 }
 .envision-book-connection .envision-component {
@@ -49,12 +60,12 @@
 }
 
 /* Bubble Borders */
-.envision-book-heat {
+.envision-book-zoom {
   border: 1px solid @plot-color;
   background: #fff;
-  padding-top: 20px;
+  padding-top: 45px;
 }
-.envision-book-heat {
+.envision-book-zoom {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
@@ -67,16 +78,21 @@
 .envision-book-connection canvas object {
   position: absolute;
   top: 0px;
+  background: #fff;
+}
+
+.envision-book-summary {
+  background: #fff;
 }
 
 /* Y-Axis Labels */
-.envision-book-heat .flotr-grid-label {
+.envision-book-zoom .flotr-grid-label {
   margin-left: 10px;
 }
-.envision-book-heat .flotr-grid-label.first {
+.envision-book-zoom .flotr-grid-label.first {
   margin-top: -6px;
 }
-.envision-book-heat .flotr-grid-label.last {
+.envision-book-zoom .flotr-grid-label.last {
   margin-top: 6px;
 }
 
@@ -86,66 +102,16 @@
 }
 
 /* Mouse Tracker */
-.envision-book-heat .flotr-mouse-value {
+.envision-book-zoom .flotr-mouse-value {
 	font-size: 12px;
+    z-index: 10000;
 }
-
-@flag-color: #cccccc;
-.envision-book-heat .flotr-flagpole { 
-    z-index: 10;
-    border-width: 1px; 
-    border-color: @flag-color; 
-    border-style: solid; 
-    width: 0px;
-}    
-
-.envision-book-heat .flotr-wrapper-flag { 
-    overflow-y: hidden; 
-    overflow-x: hidden; 
-    position: absolute;
-}    
-
-.flotr-wrapper-flag .flotr-flag { 
-    z-index: 11;
-    border-width: 0px 0px 2px 2px; 
-    border-color: @flag-color; 
-    border-style: solid; 
-    color: darken(@flag-color, 20%);
-    padding: 1px 3px 0px 3px;
-    text-overflow: ellipsis;
-    white-space: nowrap; 
-}  
-
-.flotr-wrapper-flag.minimized { 
-    border-width: 0px 1px 0px 0px;  
-    border-color: @flag-color; 
-    border-style: solid; 
-}  
-
-.envision-book-heat .flotr-flagpole.hover {
-    border-color: darken(@flag-color, 50%); 
-    box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
-    z-index: 12;
-}
-
-.flotr-wrapper-flag.hover { 
-    z-index: 12;
-    background: #eeeeee; 
-    margin-top: -20px;
-    .flotr-flag {
-        color: darken(@flag-color, 70%); 
-        font-size: 16px;  
-        text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
-        box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
-        border-color: darken(@flag-color, 50%); 
-    }
-}  
 
 @media screen and (max-width: 600px) {
   .envision-book {
     width: 100%;
   }
-  .envision-book-heat .envision-component {
+  .envision-book-zoom .envision-component {
     height: 120px;
   }
   .envision-book-summary .envision-component {
@@ -153,3 +119,121 @@
   }
 }
 
+// -----------------------------------
+// Flags
+
+@hint-back-color: #EDE8B2;
+
+.envision-book-zoom {
+
+    @flag-color: #cccccc;
+    @flag-color-hover: darken(@flag-color, 50%);
+    @flag-color-text: darken(@flag-color, 20%);
+    @flag-color-text-hover: darken(@flag-color-text, 50%);
+
+    .flotr-flagpole { 
+        z-index: 10;
+        border-width: 1px; 
+        border-color: @flag-color; 
+        border-style: solid; 
+        width: 0px;
+    }    
+
+    .flotr-wrapper-flag { 
+        overflow-y: hidden; 
+        overflow-x: hidden; 
+        position: absolute;
+    }    
+
+    .flotr-wrapper-flag .flotr-flag { 
+        z-index: 11;
+        border-width: 0px 0px 2px 2px; 
+        border-color: @flag-color; 
+        border-style: solid; 
+        color: @flag-color-text;
+        padding: 1px 3px 0px 3px;
+        text-overflow: ellipsis;
+        white-space: nowrap; 
+    }  
+
+    .flotr-wrapper-flag.minimized { 
+        border-width: 0px 2px 0px 0px;  
+        border-color: @flag-color; 
+        border-style: solid; 
+    }  
+
+    .flotr-flagpole.hover {
+        border-color: @flag-color-hover; 
+        box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+        z-index: 12;
+    }
+
+    .flotr-wrapper-flag.hover { 
+        z-index: 12;
+        background: #eeeeee; 
+        margin-top: -19px;
+        .flotr-flag {
+            color: @flag-color-text-hover; 
+            // font-size: 16px;  
+            // text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+            box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+            border-color: @flag-color-hover; 
+            white-space: normal; 
+            max-width: 200px;
+            word-wrap: break-word;
+            background: @hint-back-color;
+        }
+    } 
+} 
+
+.envision-book-summary {
+
+    @flag-color: #cccccc;
+    @flag-color-hover: darken(@flag-color, 50%);
+    @flag-color-text: darken(@flag-color, 20%);
+    @flag-color-text-hover: darken(@flag-color-text, 50%);
+
+    .flotr-flag-anchor
+    {
+        position: absolute;
+        z-index: 10;
+
+        width: 7px;
+        height: 7px;
+        background-color: @flag-color;
+
+        -webkit-border-radius: 3px; /* Safari, Chrome */
+           -moz-border-radius: 3px; /* Firefox */
+                border-radius: 3px; /* CSS3 */
+    }
+
+    .flotr-flagpole { 
+        z-index: 10;
+        border-width: 1px; 
+        border-color: @flag-color; 
+        border-style: solid; 
+        width: 0px;
+    }    
+
+    .flotr-flagpole.hover {
+        z-index: 12;
+        border-color: darken(@flag-color, 50%); 
+        box-shadow: 1px 2px 3px rgba(0,0,0,0.5);        
+    }
+
+    .flotr-flag-anchor.hover { 
+        z-index: 12;
+        background: @flag-color-hover; 
+        box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+    } 
+} 
+
+.flotr-flag-tooltip {
+    color: black;
+    position: absolute;
+    background: @hint-back-color;
+    padding: 3px 6px 3px 3px;
+    max-width: 200px;
+    word-wrap: break-word;
+    z-index: 100000;
+}

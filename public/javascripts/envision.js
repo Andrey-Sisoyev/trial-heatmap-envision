@@ -2457,7 +2457,7 @@ Graph.prototype = {
     return dataY;
   },
 
-  drawFlags: function () {
+  drawFlags: function (serieIdx) {
 
     var options  = this.options
       , xScale   = this.axes.x
@@ -2473,6 +2473,8 @@ Graph.prototype = {
     if(!flags)
         return;
 
+    this.fFlagLeaver = undefined;
+
     for (var i = flags.length - 1; i >= 0 ; i--) {
 
         var flagX = flags[i].x;
@@ -2484,104 +2486,19 @@ Graph.prototype = {
         else {
             
             // Draw the flag
-            var flagY        = this.getDataY_forDataX(flagX, 0)
-              , flagContent  = flags[i].content
+            var offset       = 0 // this.containers.price.cumulativeOffset()
+            //, flagY        = this.getDataY_forDataX(flagX, serieIdx)
               , xPos         = xScale.d2p(flagX)
-              , yPos         = yScale.d2p(flagY)
+            //, yPos         = yScale.d2p(flagY)
               , allowedWidth = lastXPos === undefined ? this.canvasWidth - xPos - 5 : lastXPos - xPos - 5
-              , actualWidth  = undefined 
               , lastXPos     = xPos
-              , hidingFlag   = true
-              , offset       = 0 // this.containers.price.cumulativeOffset()
-              , left         = Math.floor(xPos + this.plotOffset.left)
-              , top          = 5 // Math.floor(yPos - 40 + this.plotOffset.top) // TODO: need to handle overlapping flags
-              , bottom       = yScale.d2p(yAxis.min)
-              , height       = Math.floor(bottom - top)
-              , D            = Flotr.DOM
+              , left         = Math.round(xPos + this.plotOffset.left)
+              , top          = 0 // Math.round(yPos - 40 + this.plotOffset.top) // TODO: need to handle overlapping flags
+              , bottom       = yScale.d2p(yAxis.min)              
               ;            
 
-            var flagWrapD = D.node('<div class="flotr-wrapper-flag hidden hover" style="top: '+top+'px; left: '+left+'px;"></div>')
-              , flagD     = D.node('<div class="flotr-flag"></div>');
-            flagD.innerHTML = flagContent;
-            flagWrapD.appendChild(flagD);
-            D.insert(this.el, flagWrapD);
-            
-            var $flagWrapD = $(flagWrapD);
-            actualWidth = $flagWrapD.width();
-
-            var cfg_minAllowedWidth = 16
-              , cfg_minimizedWidth = 4
-              ;
-            if(allowedWidth >= cfg_minAllowedWidth) {
-                if(actualWidth > allowedWidth)
-                    $flagWrapD.width(allowedWidth);
-                hidingFlag = false;
-            } else {
-                $flagWrapD.addClass('minimized');
-                $flagWrapD.width(cfg_minimizedWidth);
-            }            
-            $flagWrapD.removeClass('hidden');
-            $flagWrapD.removeClass('hover');
-
-            var flagPoleD = D.node('<div class="flotr-flagpole" style="position: absolute; top: '+top+'px; left: '+left+'px; height: ' + height + 'px;"></div>');
-            D.insert(this.el, flagPoleD);
-
-            var fFlagLeaver = undefined;
-
-            (function(flagD, flagWrapD, flagPoleD, hidingFlag, actualWidth, allowedWidth) {
-                var $flagWrapD = $(flagWrapD)
-                  , $flagElems = $([flagWrapD, flagPoleD])
-                  , isHover        = false
-                  , isHoverToLeave = false
-                  ;
-
-                function flagMouseEnter() {
-                    console.log("in", isHover, isHoverToLeave, typeof fFlagLeaver === 'function');
-                    if(isHover)
-                        isHoverToLeave = true;
-                    else {
-                        isHover = true;
-                        if(fFlagLeaver)
-                            fFlagLeaver(); // force leave any previous flag
-                        fFlagLeaver = flagMouseLeave_force;
-                    }
-
-                    $flagElems.addClass('hover');
-                    
-                    if(hidingFlag) 
-                        $flagWrapD.removeClass('minimized');
-                    
-                    if(actualWidth > allowedWidth) 
-                        $flagWrapD.width(actualWidth);
-                }
-                function flagMouseLeave(_,force) {
-                    console.log("out", isHover, isHoverToLeave, typeof fFlagLeaver === 'function');
-
-                    if(!isHoverToLeave && !force)
-                        return;
-                
-                    isHoverToLeave = false;
-                    isHover = false;
-                    fFlagLeaver = undefined;
-
-                    $flagElems.removeClass('hover');
-                    if(hidingFlag) {
-                        $flagWrapD.addClass('minimized');
-                        $flagWrapD.width(cfg_minimizedWidth);
-                    } else if(actualWidth > allowedWidth) 
-                        $flagWrapD.width(allowedWidth);
-                }
-                function flagMouseLeave_force(_) {
-                    return flagMouseLeave(_, true);
-                }
-
-                $flagWrapD.on("mouseenter", flagMouseEnter);
-                $flagWrapD.on("mouseleave", flagMouseLeave);
-                $flagElems.on("click", flagMouseLeave_force);
-
-            })(flagD, flagWrapD, flagPoleD, hidingFlag, actualWidth, allowedWidth);
-
-
+            if(typeof options.flagDrawer === 'function')
+                options.flagDrawer.call(this, serieIdx, flags[i], top, left, bottom, allowedWidth)
         } 
     }
   },
@@ -2686,7 +2603,9 @@ Graph.prototype = {
     E.fire(this.el, 'flotr:beforedraw', [this.series, this]);
     
     this.drawGrid();
-    this.drawFlags();
+    if (this.series.length) 
+        for (i = 0; i < this.series.length; i++)
+            this.drawFlags(i);
     
     if (this.series.length) {
 
@@ -7773,8 +7692,8 @@ function processData (options) {
 
 function getDefaults () {
   return {
-    heat : {
-      name : 'envision-book-heat',
+    zoom : {
+      name : 'envision-book-zoom',
       config : {
         'lite-lines' : {
           lineWidth : 1,
@@ -7842,6 +7761,142 @@ function getDefaults () {
   };
 }
 
+function flagDrawer_zoom(serieIdx, flag, top_, left, bottom, allowedWidth) {
+
+    var minimizedFlag = undefined 
+      , flagContent  = flag.content
+      , D            = Flotr.DOM
+      , top          = top_ - 20
+      , height       = Math.round(bottom - top)
+      , actualWidth  = undefined 
+      , self         = this      
+      ;
+
+    var flagWrapD = D.node('<div class="flotr-wrapper-flag hidden hover" style="top: '+top+'px; left: '+left+'px;"></div>')
+      , flagD     = D.node('<div class="flotr-flag"></div>');
+    flagD.innerHTML = flagContent;
+    flagWrapD.appendChild(flagD);
+    D.insert(self.el, flagWrapD);
+    
+    var $flagWrapD = $(flagWrapD);
+    actualWidth = $flagWrapD.width();
+
+    var cfg_minAllowedWidth = 16
+      , cfg_minimizedWidth = 4
+      ;
+    if(allowedWidth >= cfg_minAllowedWidth) {
+        if(actualWidth > allowedWidth)
+            $flagWrapD.width(allowedWidth);
+        minimizedFlag = false;
+    } else {
+        $flagWrapD.addClass('minimized');
+        $flagWrapD.width(cfg_minimizedWidth);
+        minimizedFlag = true;
+    }            
+    $flagWrapD.removeClass('hover');
+    $flagWrapD.removeClass('hidden');
+
+    var flagPoleD = D.node('<div class="flotr-flagpole" style="position: absolute; top: '+ top +'px; left: '+left+'px; height: ' + height + 'px;"></div>');
+    D.insert(self.el, flagPoleD);
+
+    (function(flagD, flagWrapD, flagPoleD, minimizedFlag, actualWidth, allowedWidth) {
+        var $flagWrapD = $(flagWrapD)
+          , $flagElems = $([flagWrapD, flagPoleD])
+          , isHover        = false
+          , isHoverToLeave = false
+          ;
+
+        function flagMouseEnter() {
+            console.log("in", isHover, isHoverToLeave, typeof self.fFlagLeaver === 'function');
+            if(isHover)
+                isHoverToLeave = true;
+            else {
+                isHover = true;
+                if(self.fFlagLeaver)
+                    self.fFlagLeaver(); // force leave any previous flag
+                self.fFlagLeaver = flagMouseLeave_force;
+            }
+
+            $flagElems.addClass('hover');
+            
+            if(minimizedFlag) 
+                $flagWrapD.removeClass('minimized');
+            
+            if(actualWidth > allowedWidth) 
+                $flagWrapD.width(actualWidth);
+        }
+        function flagMouseLeave(_,force) {
+            console.log("out", isHover, isHoverToLeave, typeof self.fFlagLeaver === 'function');
+
+            if(!isHoverToLeave && !force) {
+                setTimeout( function() {
+                    if(!isHoverToLeave)
+                        flagMouseLeave_force();
+                }
+                ,3000);
+                return;
+            }
+        
+            isHoverToLeave = false;
+            isHover = false;
+            self.fFlagLeaver = undefined;
+
+            $flagElems.removeClass('hover');
+            if(minimizedFlag) {
+                $flagWrapD.addClass('minimized');
+                $flagWrapD.width(cfg_minimizedWidth);
+            } else if(actualWidth > allowedWidth) 
+                $flagWrapD.width(allowedWidth);
+        }
+        function flagMouseLeave_force(_) {
+            return flagMouseLeave(_, true);
+        }
+
+        $flagWrapD.on("mouseenter", flagMouseEnter);
+        $flagWrapD.on("mouseleave", flagMouseLeave);
+        $flagElems.on("click", flagMouseLeave_force);
+
+    })(flagD, flagWrapD, flagPoleD, minimizedFlag, actualWidth, allowedWidth);
+}
+
+function flagDrawer_summary(serieIdx, flag, top, left, bottom, allowedWidth) {
+
+    var minimizedFlag = undefined 
+      , flagContent  = flag.content
+      , D            = Flotr.DOM
+      , height       = Math.round(bottom - top)
+      , actualWidth  = undefined 
+      , self         = this
+      ;
+
+    var flagAnchorD = D.node('<div class="flotr-flag-anchor" style="top: '+bottom+'px; left: '+(left-3)+'px;"></div>')
+    D.insert(self.el, flagAnchorD);
+    
+    var flagPoleD = D.node('<div class="flotr-flagpole" style="position: absolute; top: '+ top +'px; left: '+left+'px; height: ' + height + 'px;"></div>');
+    D.insert(self.el, flagPoleD);
+
+    var $elems = $([flagAnchorD, flagPoleD]);
+    $elems.attr('title', flagContent)
+    $elems.tooltip({
+        hide: false
+      , show: {effect:'slideDown', delay: 0}
+      , position: {
+            my: 'center top'
+          , at: 'center bottom'
+          , of: $(flagAnchorD)
+          , collision: 'fit none'
+        }
+      , open: function( event, ui ) {
+            $elems.addClass('hover');
+        }
+      , close: function( event, ui ) {
+            $elems.removeClass('hover');
+        }
+      , tooltipClass: 'flotr-flag-tooltip'
+    });
+
+}
+
 function TplBook (options, flags) {
 
   var
@@ -7850,29 +7905,32 @@ function TplBook (options, flags) {
     vis = new V.Visualization({name : 'envision-book'}),
     selection = new V.Interaction(),
     hit = new V.Interaction(),
-    heat, connection, summary;
+    zoom, connection, summary;
 
   if (options.defaults) {
     configs = Flotr.merge(options.defaults, configs);
   }
 
-  configs.heat.data = data.heat;
+  configs.zoom.data = data.zoom;
   configs.summary.data = data.summary;
 
-  configs.heat.config.flagsData = flags;
+  configs.zoom.config.flagsData = flags;
   configs.summary.config.flagsData = flags;
 
-  configs.heat.config.mouse.trackFormatter = options.trackFormatter || function (o) {
+  configs.zoom.config.flagDrawer = flagDrawer_zoom;
+  configs.summary.config.flagDrawer = flagDrawer_summary;
+
+  configs.zoom.config.mouse.trackFormatter = options.trackFormatter || function (o) {
 
     var
       index = o.index,
       value;
 
-    if (heat.api.preprocessor) {
-      index += heat.api.preprocessor.start;
+    if (zoom.api.preprocessor) {
+      index += zoom.api.preprocessor.start;
     }
 
-    value = 'Heat: ' + data.heat[1][index] + '° Word: ' + index;
+    value = 'Heat: ' + data.zoom[1][index] + '° Word: ' + index;
 
     return value;
   };
@@ -7881,31 +7939,31 @@ function TplBook (options, flags) {
     configs.summary.config.xaxis.tickFormatter = options.xTickFormatter;
   }
 
-  configs.heat.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
+  configs.zoom.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
     return n + '°';
   };
 
-  heat       = new V.Component(configs.heat);
+  zoom       = new V.Component(configs.zoom);
   connection = new V.Component(configs.connection);
   summary    = new V.Component(configs.summary);
 
   // Render visualization
   vis
-    .add(heat)
+    .add(zoom)
     .add(connection)
     .add(summary)
     .render(options.container);
 
   // Define the selection zooming interaction
   selection
-    .follower(heat)
+    .follower(zoom)
     .follower(connection)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
   // Define the mouseover hit interaction
   hit
-    .group([heat])
+    .group([zoom])
     .add(V.actions.hit);
 
   // Optional initial selection
@@ -7917,7 +7975,7 @@ function TplBook (options, flags) {
   this.vis = vis;
   this.selection = selection;
   this.hit = hit;
-  this.heat = heat;
+  this.zoom = zoom;
   
   this.summary = summary;
 }

@@ -31,7 +31,7 @@
 			"file": "public/javascripts/envision.js",
 			"settings":
 			{
-				"buffer_size": 247964,
+				"buffer_size": 248215,
 				"line_ending": "Unix"
 			}
 		},
@@ -39,7 +39,7 @@
 			"file": "public/stylesheets/envision.less",
 			"settings":
 			{
-				"buffer_size": 2889,
+				"buffer_size": 3012,
 				"line_ending": "Unix"
 			}
 		}
@@ -220,6 +220,12 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"this",
+			"flagDrawer",
+			"heat",
+			"hidingFlag",
+			"drawFlags",
+			"37px",
 			"getDataY_forDataX",
 			"flag",
 			"flags",
@@ -292,6 +298,9 @@
 		"regex": true,
 		"replace_history":
 		[
+			"self",
+			"zoom",
+			"minimizedFlag",
 			" ",
 			"configs",
 			"heat",
@@ -329,8 +338,8 @@
 						"selection":
 						[
 							[
-								6051,
-								6051
+								4940,
+								4940
 							]
 						],
 						"settings":
@@ -338,7 +347,7 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3654.0,
+						"translation.y": 715.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -349,23 +358,23 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 247964,
+						"buffer_size": 248215,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								91643,
-								91643
+								248063,
+								248067
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
-						"translation.x": 0.0,
-						"translation.y": 47759.0,
+						"translation.x": 8.0,
+						"translation.y": 149314.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -376,15 +385,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2889,
+						"buffer_size": 3012,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2170,
-								2170
+								1671,
+								1671
 							]
 						],
 						"settings":
@@ -392,7 +401,7 @@
 							"syntax": "Packages/LESS/LESS.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2042.0,
+						"translation.y": 1676.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -33,7 +33,7 @@
         filename: "src/routes/book-hmap.iced",
         funcname: "getBookHMdata"
       });
-      dbServices.getBookHMap(bookId, userId, (__iced_deferrals.defer({
+      dbServices.books.getHMap(bookId, userId, (__iced_deferrals.defer({
         assign_fn: (function() {
           return function() {
             err = arguments[0];
@@ -111,9 +111,8 @@
           ret = {
             stats: data,
             maxPos: book.words_count,
-            headings: h
+            headings: []
           };
-          console.log('getBookHMdata ret: %j', ret);
           return res.json(ret);
         }
       });

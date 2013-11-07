@@ -15,8 +15,18 @@ dbConfig = (db) ->
 
 dbInitServices = (db, services) ->
     # cb :: (err, data)
-    services.getBookHMap = (bookId, userId, cb) -> 
-        query = "SELECT * FROM getBookHeatMap(?,?)"
-        data = [bookId, userId]
-        db.driver.execQuery query, data, cb
+    services.books = 
+        getHMap: (bookId, userId, cb) -> 
+            query = "SELECT * FROM getBookHeatMap(?,?)"
+            data = [bookId, userId]
+            db.driver.execQuery query, data, cb
+        getReadTimes: (bookId, userId, cb) -> 
+            query = "SELECT * FROM getBookReadTimes(?,?)"
+            data = [bookId, userId]
+            db.driver.execQuery query, data, cb
+        getStickiness: (bookId, dateFinishedReading, cb) -> 
+            query = "SELECT * FROM getBookStickiness(?,?)"
+            data = [bookId, dateFinishedReading]
+            db.driver.execQuery query, data, cb
+
 

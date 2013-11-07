@@ -20,11 +20,25 @@
   };
 
   dbInitServices = function(db, services) {
-    return services.getBookHMap = function(bookId, userId, cb) {
-      var data, query;
-      query = "SELECT * FROM getBookHeatMap(?,?)";
-      data = [bookId, userId];
-      return db.driver.execQuery(query, data, cb);
+    return services.books = {
+      getHMap: function(bookId, userId, cb) {
+        var data, query;
+        query = "SELECT * FROM getBookHeatMap(?,?)";
+        data = [bookId, userId];
+        return db.driver.execQuery(query, data, cb);
+      },
+      getReadTimes: function(bookId, userId, cb) {
+        var data, query;
+        query = "SELECT * FROM getBookReadTimes(?,?)";
+        data = [bookId, userId];
+        return db.driver.execQuery(query, data, cb);
+      },
+      getStickiness: function(bookId, dateFinishedReading, cb) {
+        var data, query;
+        query = "SELECT * FROM getBookStickiness(?,?)";
+        data = [bookId, dateFinishedReading];
+        return db.driver.execQuery(query, data, cb);
+      }
     };
   };
 

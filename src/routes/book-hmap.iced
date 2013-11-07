@@ -15,7 +15,7 @@ getBookHMdata = (req, res) ->
     userId = if userId == "" then null else userId
 
     # console.log 'getBookHMdata: %j', {bookId:bookId, userId:userId}
-    await dbServices.getBookHMap bookId, userId, (defer err, data)
+    await dbServices.books.getHMap bookId, userId, (defer err, data)
     if !err? 
         await req.models.book.get bookId, (defer err, book)
 
@@ -37,8 +37,8 @@ getBookHMdata = (req, res) ->
         ret = 
             stats: data
             maxPos: book.words_count
-            headings: h
-        console.log 'getBookHMdata ret: %j', ret
+            headings: []
+        # console.log 'getBookHMdata ret: %j', ret
         res.json ret
 
 

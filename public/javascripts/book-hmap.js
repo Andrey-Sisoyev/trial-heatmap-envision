@@ -243,7 +243,7 @@ $(document).ready(function() {
                     }
                     var chapterFound = idxHeading !== undefined;
                     
-                    if(chapterFound !== undefined) {
+                    if(chapterFound) {
                         hint += 'Chapter: ' + flags[idxHeading].content + '<br/>';
                         posInChapter = parseInt(o.x - flags[idxHeading].x);
                     }

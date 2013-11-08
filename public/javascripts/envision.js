@@ -2425,7 +2425,7 @@ Graph.prototype = {
     y2.setScale();
   },
 
-  getDataY_forDataX: function(dataX, serieIdx) {
+  getData_forDataX: function(dataX, serieIdx) {
     var serieIdx = serieIdx || 0
       , allData = this.series[serieIdx].data
       , i
@@ -2452,9 +2452,18 @@ Graph.prototype = {
     xTo = allData[iTo][0];
     yTo = allData[iTo][1];
 
+    var dist = (yTo-yFrom)*(xTo-dataX)/(xTo-xFrom);
     dataY = yFrom + ((yTo-yFrom)*(xTo-dataX)/(xTo-xFrom));
 
-    return dataY;
+    var ret = {
+        seriesIndex: serieIdx
+      , dataIndex: iFrom
+      , x: dataX
+      , y: dataY
+      , freeHit: true
+    }
+      
+    return ret;
   },
 
   drawFlags: function (serieIdx) {
@@ -4904,12 +4913,7 @@ Flotr.addPlugin('hit', {
         series      = this.series[seriesIndex];
         xaxis       = series.xaxis;
         yaxis       = series.yaxis;
-        sensibility = 2 * series.mouse.sensibility;
 
-        if
-          (options.mouse.trackAll ||
-          (closest.distanceX < sensibility / xaxis.scale &&
-          (!options.mouse.trackY || closest.distanceY < sensibility / yaxis.scale)))
         {
           n.series      = series;
           n.xaxis       = series.xaxis;
@@ -4917,7 +4921,6 @@ Flotr.addPlugin('hit', {
           n.mouse       = series.mouse;
           n.x           = closest.x;
           n.y           = closest.y;
-          n.dist        = closest.distance;
           n.index       = closest.dataIndex;
           n.seriesIndex = seriesIndex;
           n.freeHit     = closest.freeHit;
@@ -4943,89 +4946,22 @@ Flotr.addPlugin('hit', {
       , options   = this.options 
       , relX      = mouse.relX 
       , relY      = mouse.relY 
-      , compare   = Number.MAX_VALUE 
-      , compareX  = Number.MAX_VALUE 
       , closest   = {} 
-      , closestX  = {} 
       , check     = false 
-      , freeHit   = false 
       , serie, data 
-      , distance, distanceX, distanceY 
-      , mouseX, mouseY 
-      , x, y, i, j
+      , i
       ;
 
-    function setClosest (o) {
-      o.distance = distance;
-      o.distanceX = distanceX;
-      o.distanceY = distanceY;
-      o.seriesIndex = i;
-      o.dataIndex = j;
-      o.x = x;
-      o.y = y;
-      o.freeHit = freeHit;
-      check = true;
-    }
-
     for (i = 0; i < series.length; i++) {
-
       serie = series[i];
-      mouseX = serie.xaxis.p2d(relX);
-      mouseY = serie.yaxis.p2d(relY);
-      // dataY = this.getDataY_forDataX();
-
-      data = serie.data;
-
-      for (j = data.length; j--;) {
-
-        x = data[j][0];
-        y = data[j][1];
-
-        if (x === null || y === null) continue;
-
-        // don't check if the point isn't visible in the current range
-        if (x < serie.xaxis.min || x > serie.xaxis.max) continue;
-
-        distanceX = Math.abs(x - mouseX);
-        distanceY = Math.abs(y - mouseY);
-
-        // Skip square root for speed
-        distance = distanceX * distanceX + distanceY * distanceY;
-
-        if (distance < compare) {
-          compare = distance;
-          setClosest(closest);
-        }
-
-        if (distanceX < compareX) {
-          compareX = distanceX;
-          setClosest(closestX);
-        }
-      }
-
-      // if not found, consider projection point
-      if(!check && data.length === 2) {
-        j = 0;
-        
-        var x1 = data[0][0];
-        var y1 = data[0][1];
-        var x2 = data[1][0];
-        var y2 = data[1][1];
-
-        x = mouseX;
-        y = y2 + ((y1-y2)*(x2-x)/(x2-x1));
-        distanceX = 0;
-        distanceY = Math.abs(y - mouseY);
-        distance = distanceY;
-        freeHit = true;
-
-        setClosest(closest);
-      }
+      dataX = serie.xaxis.p2d(mouse.relX);
+      closest = this.getData_forDataX(dataX, i);
+      check = true;
     }
 
     return check ? {
       point : closest,
-      x : closestX
+      x : closest
     } : false;
   },
 

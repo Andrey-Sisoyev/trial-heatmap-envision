@@ -20,13 +20,13 @@ dbInitServices = (db, services) ->
             query = "SELECT * FROM getBookHeatMap(?,?)"
             data = [bookId, userId]
             db.driver.execQuery query, data, cb
-        getReadTimes: (bookId, userId, cb) -> 
-            query = "SELECT * FROM getBookReadTimes(?,?)"
+        getRDates: (bookId, userId, cb) -> 
+            query = "SELECT * FROM getBookRDates(?,?)"
             data = [bookId, userId]
             db.driver.execQuery query, data, cb
-        getStickiness: (bookId, dateFinishedReading, cb) -> 
+        getStickiness: (bookId, dateLastReading, cb) -> 
             query = "SELECT * FROM getBookStickiness(?,?)"
-            data = [bookId, dateFinishedReading]
+            data = [bookId, dateLastReading]
             db.driver.execQuery query, data, cb
 
 

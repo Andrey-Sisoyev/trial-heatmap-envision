@@ -27,16 +27,16 @@
         data = [bookId, userId];
         return db.driver.execQuery(query, data, cb);
       },
-      getReadTimes: function(bookId, userId, cb) {
+      getRDates: function(bookId, userId, cb) {
         var data, query;
-        query = "SELECT * FROM getBookReadTimes(?,?)";
+        query = "SELECT * FROM getBookRDates(?,?)";
         data = [bookId, userId];
         return db.driver.execQuery(query, data, cb);
       },
-      getStickiness: function(bookId, dateFinishedReading, cb) {
+      getStickiness: function(bookId, dateLastReading, cb) {
         var data, query;
         query = "SELECT * FROM getBookStickiness(?,?)";
-        data = [bookId, dateFinishedReading];
+        data = [bookId, dateLastReading];
         return db.driver.execQuery(query, data, cb);
       }
     };

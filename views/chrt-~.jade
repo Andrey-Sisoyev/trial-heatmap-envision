@@ -1,0 +1,24 @@
+extends layout-~
+
+block head
+    script(type='text/javascript', src='/js/chrt-~.js')
+
+    link(rel='stylesheet', href='/stylesheets/envision.css')
+    script(type='text/javascript', src='/js/envision.js')        
+    
+    block head2
+
+  
+block content
+    div
+      form(name="frmChatrType", action="chrt-~")
+        input(type="hidden", name="saved_book_id", value="#{book_id}")
+        label Select chart type:
+          select(name="chartTypeSel")
+            each chartType in chartTypes
+              - var select=null; if (chartType.url == chartTypeSel) select='selected';
+                option(value=chartType.url, selected=select)= chartType.title
+
+    div    
+      block content2
+    

@@ -48,11 +48,11 @@ $(document).ready(function() {
         });
     }
 
-    function PromBE_getBookHM(book_user) {
+    function PromBE_getBookHM(chartReqData) {
         return $.ajax({
             type: 'GET',
-            url: '/book-hmap-data',
-            data: book_user,
+            url: '/chrt-book-hmap-data',
+            data: chartReqData,
             error: function(jqXHR, textStatus, errorThrown){
                 console.log("chooseServerFile error " + textStatus + " " + errorThrown);
                 console.log(jqXHR);
@@ -138,9 +138,6 @@ $(document).ready(function() {
 
      */
 
-    var firstHeatPos = 1; // by default no heat at all for whole book // specified in prepareForChart
-    var zoomWordsCount = undefined; // specified in prepareForChart, where we know book size
-
     function prepareForChart(beBookData) {
         var stats = beBookData.stats;
         var headings = beBookData.headings;
@@ -152,13 +149,11 @@ $(document).ready(function() {
             var xs = [];
             var ys = [];
             var flags = [];
-            var ret = 
-                { heat: [xs,ys]
-                , maxPos: beBookData.maxPos
-                , headings: flags
-                };
             var stat;
             var lastX = 1;
+
+            var zoomStartPos = 1; 
+            var zoomDX = undefined; 
 
             for(var i = 0; i < stats.length; i++) {
                 stat = stats[i];
@@ -177,8 +172,8 @@ $(document).ready(function() {
 
                 lastX = stat.end_pos;
 
-                if(firstHeatPos === 1 && stat.heat > 0) 
-                    firstHeatPos = Math.max(1, stat.heat - 20)
+                if(zoomStartPos === 1 && stat.heat > 0) 
+                    zoomStartPos = Math.max(1, stat.start_pos - 20)
                     
             }
 
@@ -207,7 +202,15 @@ $(document).ready(function() {
                 });
             }
 
-            zoomWordsCount = Math.min(beBookData.maxPos, Math.max(50, beBookData.maxPos * 0.2)); 
+            zoomDX = Math.min(beBookData.maxPos, Math.max(50, beBookData.maxPos * 0.2)); 
+
+            var ret = 
+                { heat: [xs,ys]
+                , maxPos: beBookData.maxPos
+                , headings: flags
+                , zoomStartPos: zoomStartPos
+                , zoomDX: zoomDX
+                };
 
             return ret;
         }
@@ -267,8 +270,8 @@ $(document).ready(function() {
               , selection: {
                     data : {
                         x : {
-                            min : firstHeatPos
-                          , max : firstHeatPos + zoomWordsCount
+                            min : preparedBookData.zoomStartPos
+                          , max : preparedBookData.zoomStartPos + preparedBookData.zoomDX
                         }
                     }
                 }

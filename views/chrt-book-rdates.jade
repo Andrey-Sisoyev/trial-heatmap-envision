@@ -1,14 +1,12 @@
-extends layout
+extends chrt-~
 
-block head
-    link(rel='stylesheet', href='/stylesheets/envision.css')
-    script(type='text/javascript', src='/js/envision.js')    
-    script(type='text/javascript', src='/js/book-hmap.js')    
+block head2
+    script(type='text/javascript', src='/js/chrt-book-rdates.js')    
 
   
-block content
-    h1 Book HeatMap Prototype #{version}
-    span#cont-stats-bookhm
+block content2
+    h1 Book readtimes map #{version}
+    span#cont-stats-bookrd
       div.cont-side-controls
         p Select book:
         select(name="book_id")
@@ -21,7 +19,7 @@ block content
           option 1
           option 2
         br
-        input(type="button", value="Heat Map").hook-stat-sel 
+        input(type="button", value="Readtime").hook-stat-sel 
         div.cont-error.hidden
             p(style="color: red")
               | Failed to build statistics: 

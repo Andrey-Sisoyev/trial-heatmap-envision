@@ -1,4 +1,4 @@
-version = 'v1.0'
+version = 'v2.0'
 
 assert     = require 'assert'
 
@@ -8,9 +8,10 @@ rack       = require 'asset-rack'
 prettyjson = require 'prettyjson'
 orm        = require 'orm'
 
-dbInit    = require './db/db-init'  
-book_heat = require './routes/book-hmap'  
-utils     = require './lib/utils'  
+dbInit      = require './db/db-init'  
+books_stats = require './routes/books-stats'  
+utils       = require './lib/utils'
+
 dbServices  = {} # will be defined later
 
 dbDefineExpress = dbInit.dbDefineExpress dbServices 
@@ -65,7 +66,7 @@ assets.on 'complete', ->
     if 'development' == app.get 'env'    
       app.use express.errorHandler()  
     
-    book_heat.register app, dbServices  
+    books_stats.register app, dbServices  
 
     http.createServer(app).listen app.get('port'), -> 
       console.log 'Express server listening on port ' + (app.get 'port')

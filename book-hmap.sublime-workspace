@@ -20,10 +20,26 @@
 	"buffers":
 	[
 		{
+			"file": "public/javascripts/book-rdates.js",
+			"settings":
+			{
+				"buffer_size": 6870,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/javascripts/book-stick.js",
+			"settings":
+			{
+				"buffer_size": 7148,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "public/javascripts/book-hmap.js",
 			"settings":
 			{
-				"buffer_size": 6341,
+				"buffer_size": 8486,
 				"line_ending": "Unix"
 			}
 		},
@@ -31,15 +47,56 @@
 			"file": "public/javascripts/envision.js",
 			"settings":
 			{
-				"buffer_size": 248215,
+				"buffer_size": 249654,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "public/stylesheets/envision.less",
+			"file": "src/routes/books-stats.iced",
 			"settings":
 			{
-				"buffer_size": 3012,
+				"buffer_size": 3821,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/db/db-init.iced",
+			"settings":
+			{
+				"buffer_size": 1008,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "db/postgres/ddl.sql",
+			"settings":
+			{
+				"buffer_size": 3815,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/books-stats.jade",
+			"settings":
+			{
+				"buffer_size": 467,
+				"line_ending": "Unix",
+				"name": "books-stats.jade"
+			}
+		},
+		{
+			"file": "views/book-stick.jade",
+			"settings":
+			{
+				"buffer_size": 767,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/book-rdates.jade",
+			"settings":
+			{
+				"buffer_size": 729,
 				"line_ending": "Unix"
 			}
 		}
@@ -105,19 +162,20 @@
 	},
 	"file_history":
 	[
-		"/home/master/Projects/browser/charts/envisionjs-master/attic/dev/HumbleFinance.js",
-		"/home/master/Projects/nodejs/book-hmap/views/layout.jade",
-		"/home/master/Projects/nodejs/book-hmap/views/book-hmap.jade",
-		"/home/master/Projects/nodejs/book-hmap/src/app.iced",
-		"/home/master/Projects/nodejs/book-hmap/src/routes/book-hmap.iced",
-		"/home/master/Projects/nodejs/book-hmap/src/lib/utils.iced",
-		"/home/master/Projects/nodejs/book-hmap/src/db/db-init.iced",
-		"/home/master/Projects/nodejs/book-hmap/db/postgres/ddl.sql",
-		"/home/master/get-packages.sh",
-		"/home/master/Projects/nodejs/book-hmap/public/javascripts/envision.js",
 		"/home/master/Projects/nodejs/book-hmap/public/javascripts/book-hmap.js",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/envision.js~",
+		"/home/master/Projects/nodejs/book-hmap/views/book-hmap.jade",
+		"/home/master/Projects/nodejs/book-hmap/db/postgres/ddl.sql",
+		"/home/master/Projects/nodejs/book-hmap/src/app.iced",
+		"/home/master/Projects/nodejs/book-hmap/src/db/db-init.iced",
+		"/home/master/Projects/nodejs/book-hmap/views/layout.jade",
 		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/envision.less",
 		"/home/master/Projects/nodejs/book-hmap/db/postgres/data.sql",
+		"/home/master/Projects/nodejs/book-hmap/src/routes/book-hmap.iced",
+		"/home/master/Projects/browser/charts/envisionjs-master/attic/dev/HumbleFinance.js",
+		"/home/master/Projects/nodejs/book-hmap/src/lib/utils.iced",
+		"/home/master/get-packages.sh",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/envision.js",
 		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/layout.less",
 		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/const.less",
 		"/home/master/Projects/nodejs/book-hmap/node_modules/jade/lib/lexer.js",
@@ -217,9 +275,20 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"date",
+			"zoomWordsCount",
+			"firstHeatPos",
+			"book_heat",
+			");",
+			"end_pos)",
+			"mouse",
+			"trac",
+			"flagDrawer",
+			"flagsData",
+			"flagDrawer",
 			"this",
 			"flagDrawer",
 			"heat",
@@ -295,9 +364,14 @@
 		"highlight": false,
 		"in_selection": false,
 		"preserve_case": false,
-		"regex": true,
+		"regex": false,
 		"replace_history":
 		[
+			"zoomDX",
+			"zoomStartPos",
+			"books_stats",
+			", TIMESTAMP '2013-10-19');",
+			"end_pos, ts)",
 			"self",
 			"zoom",
 			"minimizedFlag",
@@ -322,24 +396,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/javascripts/book-hmap.js",
+					"file": "public/javascripts/book-rdates.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6341,
+						"buffer_size": 6870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4940,
-								4940
+								3095,
+								3095
 							]
 						],
 						"settings":
@@ -347,61 +421,251 @@
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 715.0,
+						"translation.y": 1596.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/javascripts/envision.js",
+					"file": "public/javascripts/book-stick.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 248215,
+						"buffer_size": 7148,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								248063,
-								248067
+								2622,
+								2622
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
-						"translation.x": 8.0,
-						"translation.y": 149314.0,
+						"translation.x": 0.0,
+						"translation.y": 1311.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "public/stylesheets/envision.less",
+					"file": "public/javascripts/book-hmap.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3012,
+						"buffer_size": 8486,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1671,
-								1671
+								3914,
+								3914
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LESS/LESS.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1676.0,
+						"translation.y": 2223.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/javascripts/envision.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 249654,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								22024,
+								22024
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 11431.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/routes/books-stats.iced",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3821,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1100,
+								1100
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 513.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/db/db-init.iced",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1008,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								956,
+								956
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "db/postgres/ddl.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3815,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1317,
+								1317
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1253.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "views/books-stats.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 467,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								417,
+								417
+							]
+						],
+						"settings":
+						{
+							"auto_name": "books-stats.jade",
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "views/book-stick.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								463,
+								463
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "views/book-rdates.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 729,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								372,
+								372
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

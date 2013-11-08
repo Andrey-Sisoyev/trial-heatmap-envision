@@ -14,5 +14,6 @@
     , "circular-json": "*"
     , "orm": "*"
     , "pg": "*"
+    , "underscore": "*"
     } 
 }

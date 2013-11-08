@@ -1,3 +1,4 @@
+fs = require 'fs' 
 moment = require 'moment'
 prettyjson = require 'prettyjson'
 CircularJSON = require 'circular-json'
@@ -25,6 +26,9 @@ exports.safePrettyPrintC = (what) ->
 
 exports.safePrint = (what) ->
     return JSON.stringify JSON.parse CircularJSON.stringify what
+
+exports.writeToFile = (fname, what) ->
+    fs.writeFile(fname, what);
 
 	
      

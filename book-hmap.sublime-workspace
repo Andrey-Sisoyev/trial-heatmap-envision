@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"set",
+				"setSeconds"
+			],
+			[
 				"ser",
 				"serie"
 			],
@@ -20,83 +24,19 @@
 	"buffers":
 	[
 		{
-			"file": "public/javascripts/book-rdates.js",
+			"file": "public/javascripts/ChartMaker.js",
 			"settings":
 			{
-				"buffer_size": 6870,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/javascripts/book-stick.js",
-			"settings":
-			{
-				"buffer_size": 7148,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/javascripts/book-hmap.js",
-			"settings":
-			{
-				"buffer_size": 8486,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/javascripts/envision.js",
-			"settings":
-			{
-				"buffer_size": 249654,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/routes/books-stats.iced",
-			"settings":
-			{
-				"buffer_size": 3821,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "src/db/db-init.iced",
-			"settings":
-			{
-				"buffer_size": 1008,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "db/postgres/ddl.sql",
-			"settings":
-			{
-				"buffer_size": 3815,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "views/books-stats.jade",
-			"settings":
-			{
-				"buffer_size": 467,
+				"buffer_size": 4154,
 				"line_ending": "Unix",
-				"name": "books-stats.jade"
+				"name": "ChartMaker.js"
 			}
 		},
 		{
-			"file": "views/book-stick.jade",
+			"file": "public/javascripts/chrt-~.js",
 			"settings":
 			{
-				"buffer_size": 767,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "views/book-rdates.jade",
-			"settings":
-			{
-				"buffer_size": 729,
+				"buffer_size": 873,
 				"line_ending": "Unix"
 			}
 		}
@@ -162,21 +102,46 @@
 	},
 	"file_history":
 	[
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/ChartMaker_BookHMap.js",
+		"/home/master/Projects/nodejs/book-hmap/views/chrt-book-hmap.jade",
+		"/home/master/Projects/nodejs/book-hmap/views/chrt-book-rdates.jade",
+		"/home/master/Projects/nodejs/book-hmap/views/chrt-book-stick.jade",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/ChartMaker_BookRDates.js",
+		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/layout.less",
+		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/envision.less",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/ChartMaker_BookStick.js",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/chrt-~.js",
+		"/home/master/Projects/nodejs/book-hmap/views/layout-~.jade",
+		"/home/master/Projects/nodejs/book-hmap/src/routes/books-stats.iced",
+		"/home/master/Projects/nodejs/book-hmap/views/chrt-~.jade",
+		"/home/master/Projects/nodejs/book-hmap/src/lib/utils.iced",
+		"/home/master/Projects/nodejs/book-hmap/public/images/ui-icons_ffffff_256x240.png",
+		"/home/master/Documents/boo-proto-demo/chart-ent.html",
+		"/home/master/Documents/boo-proto-demo/chart-rt_files/bookRDates_data.js",
+		"/home/master/Documents/boo-proto-demo/chart-hm_files/bookHMap_data.js",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/chrt-book-stick.js",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/chrt-book-hmap.js",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/chrt-book-rdates.js",
+		"/home/master/Projects/nodejs/book-hmap/docs/status.txt",
+		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/lugo.datepicker.less",
+		"/home/master/Projects/nodejs/book-hmap/build/routes/books-stats.js",
+		"/home/master/Projects/nodejs/book-hmap/package.json",
+		"/home/master/Projects/nodejs/book-hmap/db/postgres/ddl.sql",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/envision.js",
+		"/home/master/Projects/nodejs/book-hmap/public/javascripts/utils.js",
 		"/home/master/Projects/nodejs/book-hmap/public/javascripts/book-hmap.js",
+		"/home/master/Projects/nodejs/book-hmap/src/db/db-init.iced",
+		"/home/master/Projects/nodejs/book-hmap/db/postgres/data.sql",
+		"/home/master/Projects/nodejs/book-hmap/views/books-stats.jade",
+		"/home/master/Projects/nodejs/book-hmap/views/book-stick.jade",
+		"/home/master/Projects/nodejs/book-hmap/views/book-rdates.jade",
 		"/home/master/Projects/nodejs/book-hmap/public/javascripts/envision.js~",
 		"/home/master/Projects/nodejs/book-hmap/views/book-hmap.jade",
-		"/home/master/Projects/nodejs/book-hmap/db/postgres/ddl.sql",
 		"/home/master/Projects/nodejs/book-hmap/src/app.iced",
-		"/home/master/Projects/nodejs/book-hmap/src/db/db-init.iced",
 		"/home/master/Projects/nodejs/book-hmap/views/layout.jade",
-		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/envision.less",
-		"/home/master/Projects/nodejs/book-hmap/db/postgres/data.sql",
 		"/home/master/Projects/nodejs/book-hmap/src/routes/book-hmap.iced",
 		"/home/master/Projects/browser/charts/envisionjs-master/attic/dev/HumbleFinance.js",
-		"/home/master/Projects/nodejs/book-hmap/src/lib/utils.iced",
 		"/home/master/get-packages.sh",
-		"/home/master/Projects/nodejs/book-hmap/public/javascripts/envision.js",
-		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/layout.less",
 		"/home/master/Projects/nodejs/book-hmap/public/stylesheets/const.less",
 		"/home/master/Projects/nodejs/book-hmap/node_modules/jade/lib/lexer.js",
 		"/home/master/Projects/nodejs/book-hmap/node_modules/.bin/jade",
@@ -275,9 +240,45 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"hook",
+			"hook-cont-",
+			"cont-side-controls",
+			"options",
+			"envChart_drawBookHM",
+			"url",
+			"book_id",
+			"preparedBookData",
+			"flagDrawer",
+			"flagsData",
+			"PromBE_getBookEntic",
+			"PromBE_getBookRDates",
+			"PromBE_getBookHM",
+			"PromUI_inp",
+			"PromUI_inpBookUser",
+			"prom_inp",
+			"prom_inpBookUser",
+			"cont-stats-bookhm",
+			"substr",
+			"chrtType",
+			"chartTypes",
+			"chrt_type_sel",
+			".dist",
+			"dataIndex",
+			"_forDataX",
+			"getDataY_forDataX",
+			"closest",
+			"zoomEndPos",
+			"format",
+			"format(",
+			"substract",
+			"xs",
+			"nvalid date",
+			"-chrt-",
+			"2013-10-19",
+			"status.txt",
 			"date",
 			"zoomWordsCount",
 			"firstHeatPos",
@@ -367,6 +368,18 @@
 		"regex": false,
 		"replace_history":
 		[
+			"cfgChartMaker",
+			"env_drawChart",
+			"bookId",
+			"preparedChartData",
+			"fPromBE_getBEChartData",
+			"fPromUI_userInput",
+			"prom_userInput",
+			"chartType",
+			"chrtTypeSel",
+			"format2(",
+			"subtract",
+			"xs_unixDates",
 			"zoomDX",
 			"zoomStartPos",
 			"books_stats",
@@ -396,273 +409,57 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/javascripts/book-rdates.js",
+					"file": "public/javascripts/ChartMaker.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6870,
+						"buffer_size": 4154,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3095,
-								3095
+								1235,
+								1235
 							]
 						],
 						"settings":
 						{
+							"auto_name": "ChartMaker.js",
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1596.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/javascripts/book-stick.js",
+					"file": "public/javascripts/chrt-~.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7148,
+						"buffer_size": 873,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2622,
-								2622
+								472,
+								472
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1311.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/javascripts/book-hmap.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8486,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3914,
-								3914
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2223.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "public/javascripts/envision.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 249654,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								22024,
-								22024
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 11431.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/routes/books-stats.iced",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3821,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1100,
-								1100
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 513.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/db/db-init.iced",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1008,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								956,
-								956
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "db/postgres/ddl.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3815,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1317,
-								1317
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1253.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "views/books-stats.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 467,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								417,
-								417
-							]
-						],
-						"settings":
-						{
-							"auto_name": "books-stats.jade",
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "views/book-stick.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 767,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								463,
-								463
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "views/book-rdates.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 729,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								372,
-								372
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

@@ -1,71 +1,15 @@
-$(document).ready(function() {
+function ChartMaker_BookRDates() {
+    var options = {
+        url_data: '/chrt-book-rdates-data'
+      , prepareForChart: prepareForChart
+      , $cont: $('#cont-chart-general')
+      , formInit: undefined
+      , trackFormatter: trackFormatter
+      , xTickFormatter: xTickFormatter
+      , yTickFormatter: yTickFormatter
+    };
 
-    var $contStats     = $('#cont-stats-bookrd');
-    var $contGraph     = $contStats  .find(".cont-graph");
-    var $whereAsked    = $contStats  .find('.cont-side-controls');
-    var $contFailure   = $whereAsked .find(".cont-error");
-    var $msgFailReason = $contFailure.find('.hook-stat-fail-reason');
-
-    var prom_inpBookUser = undefined; // specified in PromUI_inpBookUser()
-
-    // main cycle
-    function interaction() { 
-        prom_inpBookUser
-            .then(PromBE_getBookRDates)
-            .then(envChart_drawBookRDates, showAjaxErrMsg)
-            .always(interaction)
-            ;
-    }
-
-    PromUI_inpBookUser();
-    interaction();    
-
-    function PromUI_inpBookUser() {
-        var $inpBook = $whereAsked.find('select[name="book_id"]');
-        var $inpUser = $whereAsked.find('select[name="user_id"]');
-        var $btn     = $whereAsked.find('.hook-stat-sel');
-
-        var def = undefined;
-        function initProm_inpBookUser() {
-            def = new $.Deferred(); 
-            prom_inpBookUser = def.promise();             
-        }
-        function resetFeedback() {
-            $contFailure.addClass('hidden');  
-            $contGraph.empty();  
-        }
-        initProm_inpBookUser();        
-        
-        $btn.click(function() {
-            resetFeedback();
-
-            var ret = { 
-                bookId: $inpBook.val()
-              , userId: $inpUser.val()
-              };
-            def.resolve(ret); 
-            initProm_inpBookUser();
-        });
-    }
-
-    function PromBE_getBookRDates(book_user) {
-        return $.ajax({
-            type: 'GET',
-            url: '/chrt-book-rdates-data',
-            data: book_user,
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log("chooseServerFile error " + textStatus + " " + errorThrown);
-                console.log(jqXHR);
-            },
-            dataType: "json",
-            cache: false
-        });
-    }
-
-    function showAjaxErrMsg(jqXHR, textStatus, errorThrown) {
-        $msgFailReason.text(textStatus + '; ' + errorThrown);            
-        $contFailure.removeClass('hidden');
-    }
+    new ChartMaker(options).run();
 
     /*
          { stats: 
@@ -212,52 +156,21 @@ $(document).ready(function() {
         }
     }
 
-    function envChart_drawBookRDates(beBookData) {
-        var preparedBookData = prepareForChart(beBookData);
+    function trackFormatter(envHit, preparedChartData) {
+        var hint = ''; 
+        var idxHeading = undefined;
+        
+        hint += 'Reads date: ' + moment.unix(envHit.x).format('YYYY-MM-DD') + '<br/>';
+        hint += 'Reads count: ' + parseInt(envHit.y);
 
-        if(preparedBookData === undefined) {
-            showAjaxErrMsg(undefined, "No data for this book ∩ user");
-        } else {
-
-            var V = envision;
-            var container = $contGraph.get(0);
-
-            var options = {
-                container : container
-              , data : {
-                    zoom    : preparedBookData.stats
-                  , summary : preparedBookData.stats
-                } 
-              , trackFormatter : function (o) {
-                    var hint = ''; 
-                    var idxHeading = undefined;
-                    
-                    hint += 'Reads date: ' + moment.unix(o.x).format('YYYY-MM-DD') + '<br/>';
-                    hint += 'Reads count: ' + parseInt(o.y);
-
-                    return hint;
-                } 
-              , xTickFormatter : function (x) {
-                    return moment.unix(x).format('YYYY-MM-DD');
-                } 
-              , yTickFormatter: function (n) {
-                    if(n - Math.floor(n) < 0.0001)
-                        return Math.floor(n);
-                    else return '';
-                } 
-                // An initial selection
-              , selection: {
-                    data : {
-                        x : {
-                            min : preparedBookData.zoomStartPos
-                          , max : preparedBookData.zoomEndPos
-                        }
-                    }
-                }
-            };            
-
-            new envision.templates.TplBook(options, preparedBookData.flags);    
-        }   
-    }
-
-});
+        return hint;
+    } 
+    function xTickFormatter(x) {
+        return moment.unix(x).format('YYYY-MM-DD');
+    } 
+    function yTickFormatter(n) {
+        if(n - Math.floor(n) < 0.0001)
+            return Math.floor(n);
+        else return '';
+    } 
+}   

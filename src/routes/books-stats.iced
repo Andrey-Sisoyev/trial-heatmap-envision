@@ -11,27 +11,34 @@ exports.register = (app, _dbServices) ->
     app.get urlPrefix, index 
     app.get urlPrefix + 'chrt-~', chartSelect 
     
-    for chartType in chartTypes
+    for own chartKey, chartType of chartTypes
         app.get chartType.url     , chartType.fView 
         app.get chartType.url_data, chartType.fData
 
 index = (req, res) -> 
     if !req.session.chartTypeSel?
-        req.session.chartTypeSel = 'chrt-book-hmap' # default
-    if !req.session.book_id?
-        req.session.book_id = ''
-    res.redirect urlPrefix + req.session.chartTypeSel 
+        req.session.chartTypeSel = chartTypes[defaultChartType]
+    if !req.session.bookId?
+        req.session.bookId = ''
+
+    res.redirect req.session.chartTypeSel.url 
 
 chartSelect = (req, res) -> 
-    chartTypeSel = req.query.chartTypeSel 
+    chartTypeSel = chartTypes[req.query.chartTypeSel]
     req.session.chartTypeSel = chartTypeSel
-    req.session.book_id      = req.query.saved_book_id
-    res.redirect chartTypeSel
+    req.session.bookId       = req.query.savedBookId
+    res.redirect chartTypeSel.url
 
 # ------------------------------------------------------------
 
 bookStickiness = (req, res) -> 
-    res.render 'chrt-book-stick', {chartTypeSel: req.session.chartTypeSel, book_id: req.session.book_id, chartTypes: chartTypes} 
+    if !req.session.chartTypeSel?
+        res.redirect urlPrefix
+
+    res.render 'chrt-book-stick', 
+        chartTypeSel: req.session.chartTypeSel
+        bookId: req.session.bookId
+        chartTypes: chartTypes
 
 bookStickiness_data = (req, res) -> 
     bookId       = req.query.bookId
@@ -59,13 +66,20 @@ bookStickiness_data = (req, res) ->
             stats: data
             maxPos: book.words_count
         # console.log 'bookStickiness_data ret: %j', ret
-        utils.writeToFile 'bookStickiness_data.js', JSON.stringify(ret);
+        #utils.writeToFile 'bookStickiness_data.js', JSON.stringify(ret);
+        
         res.json ret    
 
 # ------------------------------------------------------------
 
 bookRDates = (req, res) -> 
-    res.render 'chrt-book-rdates', {chartTypeSel: req.session.chartTypeSel, book_id: req.session.book_id, chartTypes: chartTypes} 
+    if !req.session.chartTypeSel?
+        res.redirect urlPrefix
+
+    res.render 'chrt-book-rdates', 
+        chartTypeSel: req.session.chartTypeSel
+        bookId: req.session.bookId
+        chartTypes: chartTypes
 
 bookRDates_data = (req, res) -> 
     bookId = req.query.bookId
@@ -84,13 +98,20 @@ bookRDates_data = (req, res) ->
 
         ret = {stats: data}
         # console.log 'bookRDates_data ret: %j', ret
-        utils.writeToFile 'bookRDates_data.js', JSON.stringify(ret);
+        #utils.writeToFile 'bookRDates_data.js', JSON.stringify(ret);
+        
         res.json ret
 
 # ------------------------------------------------------------
 
 bookHMap = (req, res) -> 
-    res.render 'chrt-book-hmap', {chartTypeSel: req.session.chartTypeSel, book_id: req.session.book_id, chartTypes: chartTypes} 
+    if !req.session.chartTypeSel?
+        res.redirect urlPrefix
+
+    res.render 'chrt-book-hmap', 
+        chartTypeSel: req.session.chartTypeSel
+        bookId: req.session.bookId
+        chartTypes: chartTypes
 
 bookHMap_data = (req, res) ->
     bookId = req.query.bookId
@@ -122,30 +143,37 @@ bookHMap_data = (req, res) ->
             maxPos: book.words_count
             headings: h
         # console.log 'bookHMap_data ret: %j', ret
-        utils.writeToFile 'bookHMap_data.js', JSON.stringify(ret);
+        # utils.writeToFile 'bookHMap_data.js', JSON.stringify(ret);
 
         res.json ret
 
-chartTypes = [
-    { url     : urlPrefix + 'chrt-book-hmap'
-    , url_data: urlPrefix + 'chrt-book-hmap-data'
-    , fView: bookHMap
-    , fData: bookHMap_data
-    , title: 'Book read-heat map'
-    }
+defaultChartType = "chrt-book-hmap"
+chartTypes = 
+    "chrt-book-hmap": 
+        name    : "chrt-book-hmap"
+        url     : urlPrefix + 'chrt-book-hmap'
+        url_data: urlPrefix + 'chrt-book-hmap-data'
+        fView: bookHMap
+        fData: bookHMap_data
+        title: 'Book read-heat map'
+        fBrowserChartMaker: 'ChartMaker_BookHMap'
 
-    { url     : urlPrefix + 'chrt-book-rdates'
-    , url_data: urlPrefix + 'chrt-book-rdates-data'
-    , fView: bookRDates
-    , fData: bookRDates_data
-    , title: 'Book readtime map'
-    }
+    "chrt-book-rdates":
+        name    : "chrt-book-rdates"
+        url     : urlPrefix + 'chrt-book-rdates'
+        url_data: urlPrefix + 'chrt-book-rdates-data'
+        fView: bookRDates
+        fData: bookRDates_data
+        title: 'Book readtime map'
+        fBrowserChartMaker: 'ChartMaker_BookRDates'
+        
+    "chrt-book-stick":
+        name    : "chrt-book-stick"
+        url     : urlPrefix + 'chrt-book-stick'
+        url_data: urlPrefix + 'chrt-book-stick-data'
+        fView: bookStickiness
+        fData: bookStickiness_data
+        title: 'Book enticability'
+        fBrowserChartMaker: 'ChartMaker_BookStick'
 
-    { url     : urlPrefix + 'chrt-book-stick'
-    , url_data: urlPrefix + 'chrt-book-stick-data'
-    , fView: bookStickiness
-    , fData: bookStickiness_data
-    , title: 'Book enticability'
-    }
-]
 

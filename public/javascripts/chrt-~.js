@@ -3,9 +3,9 @@ $(document).ready(function() {
       , $frmChrtType = $('form[name="' + nameFrmChartType + '"]')
       , $inpChrtType = $frmChrtType.find(':input[name="chartTypeSel"]')
       , $contChrtControls = $('.cont-side-controls')
-      , $inpBookId = $contChrtControls.find(':input[name="book_id"]')
-      , $inpBookId_saved = $frmChrtType.find(':input[name="saved_book_id"]')
-      , $btnGetChart = $contChrtControls.find('.hook-stat-sel')
+      , $inpBookId = $contChrtControls.find(':input[name="bookId"]')
+      , $inpBookId_saved = $frmChrtType.find(':input[name="saveBookId"]')
+      , $btnGetChart = $contChrtControls.find('.btn-chart-request')
       , savedBookId = $inpBookId_saved.val();
       ;
 

@@ -5,20 +5,41 @@ block head
 
     link(rel='stylesheet', href='/stylesheets/envision.css')
     script(type='text/javascript', src='/js/envision.js')        
-    
+
     block head2
 
   
 block content
     div
       form(name="frmChatrType", action="chrt-~")
-        input(type="hidden", name="saved_book_id", value="#{book_id}")
+        input(type="hidden", name="savedBookId", value="#{bookId}")
         label Select chart type:
           select(name="chartTypeSel")
             each chartType in chartTypes
-              - var select=null; if (chartType.url == chartTypeSel) select='selected';
-                option(value=chartType.url, selected=select)= chartType.title
+              - var select=null; if (chartType.name == chartTypeSel.name) select='selected';
+              option(value=chartType.name, selected=select)= chartType.title              
 
     div    
-      block content2
+      h1 Chart prototype #{version}: #{chartTypeSel.title} 
+      span#cont-chart-general
+        div.cont-side-controls
+
+            block input_form_fields
+
+            br
+            input(type="button", value="Make chart").btn-chart-request 
+            div.cont-error.hidden
+                p(style="color: red")
+                  | Failed to build statistics: 
+                  | <span class="cont-fail-reason"/> 
+
+        div.cont-graph-and-buttons
+            div.cont-graph 
+    script(type='text/javascript', src='/js/ChartMaker.js')        
+    script(type='text/javascript', src='/js/#{chartTypeSel.fBrowserChartMaker}.js')        
+    script.
+        $(document).ready(function() {
+            #{chartTypeSel.fBrowserChartMaker}();
+        });    
+        
     

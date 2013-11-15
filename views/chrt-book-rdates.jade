@@ -1,29 +1,16 @@
 extends chrt-~
 
 block head2
-    script(type='text/javascript', src='/js/chrt-book-rdates.js')    
 
   
-block content2
-    h1 Book readtimes map #{version}
-    span#cont-stats-bookrd
-      div.cont-side-controls
-        p Select book:
-        select(name="book_id")
-          option 1
-          option 2
-          option 3
-        p Select user:
-        select(name="user_id")
-          option
-          option 1
-          option 2
-        br
-        input(type="button", value="Readtime").hook-stat-sel 
-        div.cont-error.hidden
-            p(style="color: red")
-              | Failed to build statistics: 
-              | <span class="hook-stat-fail-reason"/> 
-
-      div.cont-graph-and-buttons
-        div.cont-graph     
+block input_form_fields    
+    p Select book:
+    select(name="bookId")
+      option 1
+      option 2
+      option 3
+    p Select user:
+    select(name="userId")
+      option
+      option 1
+      option 2

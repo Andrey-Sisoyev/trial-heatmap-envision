@@ -1,27 +1,13 @@
 extends chrt-~
 
 block head2
-    script(type='text/javascript', src='/js/chrt-book-stick.js')  
     link(rel="stylesheet", href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css")
   
-block content2
-    h1 Book enticability #{version}
-    span#cont-stats-bookent
-      div.cont-side-controls
-        p Select book:
-        select(name="book_id")
-          option 1
-          option 2
-          option 3
-        p Consider users that made <br/>their last reading earlier than:
-        input#last_reading(name="last_reading", type="text") 
-            
-        br
-        input(type="button", value="Enticability").hook-stat-sel 
-        div.cont-error.hidden
-            p(style="color: red")
-              | Failed to build statistics: 
-              | <span class="hook-stat-fail-reason"/> 
-
-      div.cont-graph-and-buttons
-        div.cont-graph     
+block input_form_fields
+    p Select book:
+    select(name="bookId")
+      option 1
+      option 2
+      option 3
+    p Consider users that made <br/>their last reading earlier than:
+    input(name="lastReading", type="text") 

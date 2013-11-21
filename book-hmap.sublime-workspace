@@ -33,6 +33,38 @@
 			}
 		},
 		{
+			"file": "src/routes/books-stats.iced",
+			"settings":
+			{
+				"buffer_size": 5954,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "views/chrt-~.jade",
+			"settings":
+			{
+				"buffer_size": 1457,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/javascripts/ChartMaker_BookStick.js",
+			"settings":
+			{
+				"buffer_size": 3195,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/javascripts/ChartMaker_BookHMap.js",
+			"settings":
+			{
+				"buffer_size": 5442,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "public/javascripts/chrt-~.js",
 			"settings":
 			{
@@ -409,7 +441,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -425,8 +457,8 @@
 						"selection":
 						[
 							[
-								1235,
-								1235
+								1936,
+								1936
 							]
 						],
 						"settings":
@@ -442,6 +474,114 @@
 				},
 				{
 					"buffer": 1,
+					"file": "src/routes/books-stats.iced",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5698,
+								5698
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2622.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "views/chrt-~.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								485,
+								485
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 57.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/javascripts/ChartMaker_BookStick.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3195,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2797,
+								2797
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1539.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "public/javascripts/ChartMaker_BookHMap.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 5442,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5297,
+								5297
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3096.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "public/javascripts/chrt-~.js",
 					"semi_transient": false,
 					"settings":
